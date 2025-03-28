@@ -1,29 +1,29 @@
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        count=[]
-        l,r=0,len(nums)-1
-        if target not in nums:
-            return [-1,-1]
-        elif len(nums)==1:
-            return [0,0]
-        
-            
-        else:
-            while(l<=r):
-                mid=(l+r)//2
-
-            
-
-                if nums[mid]==target:
-                    if mid not in count:
-                        count.append(mid)
-                    l=l+1
-                
-            
-                elif nums[mid]<target:
-                    l=l+1
-
+        def findLeft():
+            left, right = 0, len(nums) - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if nums[mid] < target:
+                    left = mid + 1
                 else:
-                    r=r-1
-            return count
-        
+                    right = mid - 1
+            return left
+
+        def findRight():
+            left, right = 0, len(nums) - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if nums[mid] <= target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return right
+
+        left_index = findLeft()
+        # Check if target is not present in the array
+        if left_index >= len(nums) or nums[left_index] != target:
+            return [-1, -1]
+
+        right_index = findRight()
+        return [left_index, right_index]
